@@ -49,8 +49,11 @@ function escapeHtml(text) {
 
 
 function xxx() {
-    [].forEach.call(document.querySelectorAll("div[puml],pre[uml],pre[lang='uml']>code"), function(umlElem) {
+    [].forEach.call(document.querySelectorAll("div[puml],pre[lang='uml']>code"), function(umlElem) {
         createObj(umlElem);
+    });
+    [].forEach.call(document.querySelectorAll("pre[uml]"), function(umlElem) {
+        createObj(umlElem.parentNode, umlElem.parentNode.parentNode.textContent.trim());
     });
 }
 
@@ -78,12 +81,14 @@ function createImg(umlElem){
 	parent.replaceChild(imgElem, umlElem);
 }
 
-function createObj(umlElem) {
+function createObj(umlElem, umlstr) {
+	console.log(umlElem, umlstr)
 	var parent = umlElem.parentNode;
 	var plantuml = umlElem.textContent.trim();
-	if (plantuml.substr(0, "@start".length) != "@start") return;
+    umlstr = umlstr || plantuml;
+	if (umlstr.substr(0, "@start".length) != "@start") return;
 
-	var url = "https://www.plantuml.com/plantuml/svg/" + compress(plantuml);
+	var url = "https://www.plantuml.com/plantuml/svg/" + compress(umlstr);
 	var imgElem = document.createElement("object");
 	imgElem.setAttribute("type", "image/svg+xml");
 	imgElem.setAttribute("data", escapeHtml(url));
