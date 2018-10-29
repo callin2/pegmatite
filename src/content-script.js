@@ -49,7 +49,7 @@ function escapeHtml(text) {
 
 
 function xxx() {
-    [].forEach.call(document.querySelectorAll("div[puml],pre[lang='uml']>code"), function(umlElem) {
+    [].forEach.call(document.querySelectorAll("div[puml],pre[lang='uml']>code,pre.lang-uml>code"), function(umlElem) {
         createObj(umlElem);
     });
     [].forEach.call(document.querySelectorAll("pre[uml]"), function(umlElem) {
